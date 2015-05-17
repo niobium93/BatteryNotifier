@@ -17,6 +17,7 @@ namespace BatteryNotifier
             startupKey = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
             if (startupKey.GetValue("BatteryNotifier") != null)
                 startupCheckBox.Checked = true;
+            startupKey.Dispose();
 
             lowBatteryPercentBox.Text = (Program.lowBatteryLevel*100).ToString();
             highBatteryPercentBox.Text = (Program.highBatteryLevel*100).ToString();
@@ -32,6 +33,7 @@ namespace BatteryNotifier
             openFileDialog.FileName = Path.GetFileName(Program.batteryLowSoundPath);
             if (openFileDialog.ShowDialog() == DialogResult.OK)
                 batteryLowSoundPathTextBox.Text = openFileDialog.FileName;
+            openFileDialog.Dispose();
         }
 
         private void batteryHighSoundPathBrowseButton_Click(object sender, EventArgs e)
@@ -40,6 +42,7 @@ namespace BatteryNotifier
             openFileDialog.FileName = Path.GetFileName(Program.batteryHighSoundPath);
             if (openFileDialog.ShowDialog() == DialogResult.OK)
                 batteryHighSoundPathTextBox.Text = openFileDialog.FileName;
+            openFileDialog.Dispose();
         }
 
         private void saveButton_Click(object sender, EventArgs e)

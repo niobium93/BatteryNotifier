@@ -38,13 +38,11 @@ namespace BatteryNotifier
             {
                 if (process.Id != currentProcess.Id)
                     process.Kill();
+                currentProcess.Dispose();
             }
 
             if (args.Length != 0 && args[0] == "/stop")
-            {
-                // TODO: make sure I'm not leaving any resources open.
                 isRunning = false;
-            }
             else if (args.Length != 0 && args[0] == "/settings")
             {
                 ReadSoundPathsFromRegistry();
