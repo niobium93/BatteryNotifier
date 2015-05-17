@@ -13,7 +13,7 @@ namespace BatteryNotifier
 {
     static class Program
     {
-        static bool isRunning = true;
+        static public bool isRunning = true;
         static Process currentProcess = Process.GetCurrentProcess();
 
 
@@ -55,9 +55,8 @@ namespace BatteryNotifier
             else if (args.Length != 0)
             {
                 MessageBox.Show("Unknown argument: " + args[0], "Battery Notifier");
+                ReadSoundPathsFromRegistry();
             }
-
-            ReadSoundPathsFromRegistry();
 
             // TODO: Lower the volume of other sounds playing on the computer to make sure the user hears the notification.
             SoundPlayer BatteryHighSoundPlayer = new SoundPlayer(batteryHighSoundPath);
@@ -91,12 +90,10 @@ namespace BatteryNotifier
 
             BatteryHighSoundPlayer.Dispose();
             BatteryLowSoundPlayer.Dispose();
-            //currentProcess.Kill(); // TODO: This isn't necesary for the app to close is it?
         }
 
         static private void ReadSoundPathsFromRegistry()
         {
-            //Read sound paths from registry here.
             RegistryKey SoundPathKeys = Registry.CurrentUser.OpenSubKey("Software\\BatteryNotifier", true);
             if (SoundPathKeys != null)
             {
@@ -118,7 +115,6 @@ namespace BatteryNotifier
                     }
                 }
             }
-            SoundPathKeys.Dispose();
             // TODO: load other variables
         }
     }

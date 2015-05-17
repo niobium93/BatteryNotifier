@@ -37,9 +37,12 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.batteryLowSoundPathBrowseButton = new System.Windows.Forms.Button();
             this.batteryHighSoundPathBrowseButton = new System.Windows.Forms.Button();
-            this.lowBatteryPercentBox = new System.Windows.Forms.TextBox();
-            this.highBatteryPercentBox = new System.Windows.Forms.TextBox();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.lowBatteryPercentBox = new CustomNumericUpDown();
+            this.highBatteryPercentBox = new CustomNumericUpDown();
+            this.stopProgramCheckBox = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)(this.lowBatteryPercentBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.highBatteryPercentBox)).BeginInit();
             this.SuspendLayout();
             // 
             // startupCheckBox
@@ -74,14 +77,14 @@
             // 
             // batteryLowSoundPathTextBox
             // 
-            this.batteryLowSoundPathTextBox.Location = new System.Drawing.Point(12, 85);
+            this.batteryLowSoundPathTextBox.Location = new System.Drawing.Point(12, 81);
             this.batteryLowSoundPathTextBox.Name = "batteryLowSoundPathTextBox";
             this.batteryLowSoundPathTextBox.Size = new System.Drawing.Size(300, 20);
             this.batteryLowSoundPathTextBox.TabIndex = 5;
             // 
             // batteryHighSoundPathTextBox
             // 
-            this.batteryHighSoundPathTextBox.Location = new System.Drawing.Point(12, 111);
+            this.batteryHighSoundPathTextBox.Location = new System.Drawing.Point(12, 107);
             this.batteryHighSoundPathTextBox.Name = "batteryHighSoundPathTextBox";
             this.batteryHighSoundPathTextBox.Size = new System.Drawing.Size(300, 20);
             this.batteryHighSoundPathTextBox.TabIndex = 7;
@@ -89,7 +92,7 @@
             // closeButton
             // 
             this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.closeButton.Location = new System.Drawing.Point(343, 145);
+            this.closeButton.Location = new System.Drawing.Point(318, 132);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 23);
             this.closeButton.TabIndex = 10;
@@ -99,7 +102,8 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(262, 145);
+            this.saveButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.saveButton.Location = new System.Drawing.Point(237, 133);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 9;
@@ -109,9 +113,9 @@
             // 
             // batteryLowSoundPathBrowseButton
             // 
-            this.batteryLowSoundPathBrowseButton.Location = new System.Drawing.Point(318, 82);
+            this.batteryLowSoundPathBrowseButton.Location = new System.Drawing.Point(318, 81);
             this.batteryLowSoundPathBrowseButton.Name = "batteryLowSoundPathBrowseButton";
-            this.batteryLowSoundPathBrowseButton.Size = new System.Drawing.Size(75, 23);
+            this.batteryLowSoundPathBrowseButton.Size = new System.Drawing.Size(75, 20);
             this.batteryLowSoundPathBrowseButton.TabIndex = 6;
             this.batteryLowSoundPathBrowseButton.Text = "Browse...";
             this.batteryLowSoundPathBrowseButton.UseVisualStyleBackColor = true;
@@ -119,31 +123,41 @@
             // 
             // batteryHighSoundPathBrowseButton
             // 
-            this.batteryHighSoundPathBrowseButton.Location = new System.Drawing.Point(318, 108);
+            this.batteryHighSoundPathBrowseButton.Location = new System.Drawing.Point(318, 106);
             this.batteryHighSoundPathBrowseButton.Name = "batteryHighSoundPathBrowseButton";
-            this.batteryHighSoundPathBrowseButton.Size = new System.Drawing.Size(75, 23);
+            this.batteryHighSoundPathBrowseButton.Size = new System.Drawing.Size(75, 20);
             this.batteryHighSoundPathBrowseButton.TabIndex = 8;
             this.batteryHighSoundPathBrowseButton.Text = "Browse...";
             this.batteryHighSoundPathBrowseButton.UseVisualStyleBackColor = true;
             this.batteryHighSoundPathBrowseButton.Click += new System.EventHandler(this.batteryHighSoundPathBrowseButton_Click);
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
+            // 
             // lowBatteryPercentBox
             // 
-            this.lowBatteryPercentBox.Location = new System.Drawing.Point(139, 35);
+            this.lowBatteryPercentBox.Location = new System.Drawing.Point(138, 32);
             this.lowBatteryPercentBox.Name = "lowBatteryPercentBox";
-            this.lowBatteryPercentBox.Size = new System.Drawing.Size(100, 20);
+            this.lowBatteryPercentBox.Size = new System.Drawing.Size(45, 20);
             this.lowBatteryPercentBox.TabIndex = 2;
             // 
             // highBatteryPercentBox
             // 
-            this.highBatteryPercentBox.Location = new System.Drawing.Point(139, 58);
+            this.highBatteryPercentBox.Location = new System.Drawing.Point(138, 55);
             this.highBatteryPercentBox.Name = "highBatteryPercentBox";
-            this.highBatteryPercentBox.Size = new System.Drawing.Size(100, 20);
+            this.highBatteryPercentBox.Size = new System.Drawing.Size(45, 20);
             this.highBatteryPercentBox.TabIndex = 4;
             // 
-            // openFileDialog
+            // stopProgramCheckBox
             // 
-            this.openFileDialog.FileName = "openFileDialog1";
+            this.stopProgramCheckBox.AutoSize = true;
+            this.stopProgramCheckBox.Location = new System.Drawing.Point(12, 133);
+            this.stopProgramCheckBox.Name = "stopProgramCheckBox";
+            this.stopProgramCheckBox.Size = new System.Drawing.Size(112, 17);
+            this.stopProgramCheckBox.TabIndex = 11;
+            this.stopProgramCheckBox.Text = "Stop program now";
+            this.stopProgramCheckBox.UseVisualStyleBackColor = true;
             // 
             // SettingsForm
             // 
@@ -151,7 +165,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.closeButton;
-            this.ClientSize = new System.Drawing.Size(437, 180);
+            this.ClientSize = new System.Drawing.Size(401, 179);
+            this.Controls.Add(this.stopProgramCheckBox);
             this.Controls.Add(this.highBatteryPercentBox);
             this.Controls.Add(this.lowBatteryPercentBox);
             this.Controls.Add(this.batteryHighSoundPathBrowseButton);
@@ -166,8 +181,11 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(417, 218);
             this.Name = "SettingsForm";
             this.Text = "Battery Notifier Settings";
+            ((System.ComponentModel.ISupportInitialize)(this.lowBatteryPercentBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.highBatteryPercentBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -184,8 +202,9 @@
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button batteryLowSoundPathBrowseButton;
         private System.Windows.Forms.Button batteryHighSoundPathBrowseButton;
-        private System.Windows.Forms.TextBox lowBatteryPercentBox;
-        private System.Windows.Forms.TextBox highBatteryPercentBox;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private CustomNumericUpDown lowBatteryPercentBox;
+        private CustomNumericUpDown highBatteryPercentBox;
+        private System.Windows.Forms.CheckBox stopProgramCheckBox;
     }
 }

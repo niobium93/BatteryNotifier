@@ -18,9 +18,8 @@ namespace BatteryNotifier
             if (startupKey.GetValue("BatteryNotifier") != null)
                 startupCheckBox.Checked = true;
 
-            // TODO: fill up low and high battery percent boxes correctly
-            lowBatteryPercentBox.Text = Program.lowBatteryLevel.ToString();
-            highBatteryPercentBox.Text = Program.highBatteryLevel.ToString();
+            lowBatteryPercentBox.Text = (Program.lowBatteryLevel*100).ToString();
+            highBatteryPercentBox.Text = (Program.highBatteryLevel*100).ToString();
             batteryLowSoundPathTextBox.Text = Program.batteryLowSoundPath;
             batteryHighSoundPathTextBox.Text = Program.batteryHighSoundPath;
             lowBatteryCheckBox.Checked = Program.alertOnLowBattery;
@@ -51,7 +50,8 @@ namespace BatteryNotifier
                 Program.batteryHighSoundPath = batteryHighSoundPathTextBox.Text;
             Program.alertOnLowBattery = lowBatteryCheckBox.Checked;
             Program.alertOnHighBattery = highBatteryCheckBox.Checked;
-            // TODO: put low and high battery percent boxes into Program
+            Program.highBatteryLevel = (float)highBatteryPercentBox.Value/100;
+            Program.lowBatteryLevel = (float)lowBatteryPercentBox.Value/100;
 
             if (startupCheckBox.Checked)
                 startupKey.SetValue("BatteryNotifier", Assembly.GetExecutingAssembly().Location);
@@ -74,13 +74,22 @@ namespace BatteryNotifier
                 }
             }
             // TODO: save other variables
+            if (stopProgramCheckBox.Checked) Program.isRunning = false;
             Close();
         }
 
         private void closeButton_Click(object sender, EventArgs e)
         {
-            // TODO: maybe add a stop button/checkbox
+            if (stopProgramCheckBox.Checked) Program.isRunning = false;
             Close();
+        }
+    }
+
+    public class CustomNumericUpDown : NumericUpDown
+    {
+        protected override void UpdateEditText()
+        {
+            this.Text = this.Value.ToString() + "%";
         }
     }
 }
