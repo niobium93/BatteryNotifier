@@ -18,11 +18,11 @@ namespace BatteryNotifier
 
 
         static public bool alertOnLowBattery = true;
-        static public bool alertOnHighBattery = true;
-        static public float lowBatteryLevel = 0.65f;
+        static public bool alertOnHighBattery = false;
+        static public float lowBatteryLevel = 0.15f;
         static public float highBatteryLevel = 0.85f;
-        static public string batteryHighSoundPath = @"c:\Windows\Media\chimes.wav";
         static public string batteryLowSoundPath = @"c:\Windows\Media\notify.wav";
+        static public string batteryHighSoundPath = @"c:\Windows\Media\chimes.wav";
 
         [STAThread]
         static void Main(string[] args)
@@ -55,6 +55,7 @@ namespace BatteryNotifier
                 MessageBox.Show("Unknown argument: " + args[0], "Battery Notifier");
                 ReadSoundPathsFromRegistry();
             }
+            ReadSoundPathsFromRegistry();
 
             // TODO: Lower the volume of other sounds playing on the computer to make sure the user hears the notification.
             SoundPlayer BatteryHighSoundPlayer = new SoundPlayer(batteryHighSoundPath);
@@ -92,28 +93,53 @@ namespace BatteryNotifier
 
         static private void ReadSoundPathsFromRegistry()
         {
-            RegistryKey SoundPathKeys = Registry.CurrentUser.OpenSubKey("Software\\BatteryNotifier", true);
-            if (SoundPathKeys != null)
+            RegistryKey BatteryNotifierKey = Registry.CurrentUser.OpenSubKey("Software\\BatteryNotifier", true);
+            if (BatteryNotifierKey != null)
             {
-                if (SoundPathKeys.GetValue("batteryHighSoundPath") != null)
+                if (BatteryNotifierKey.GetValue("batteryLowSoundPath") != null)
                 {
-                    string path = SoundPathKeys.GetValue("batteryHighSoundPath").ToString();
+                    string path = BatteryNotifierKey.GetValue("batteryLowSoundPath").ToString();
+                    if (File.Exists(path))
+                    {
+                        batteryLowSoundPath = @path;
+                    }
+                }
+
+                if (BatteryNotifierKey.GetValue("batteryHighSoundPath") != null)
+                {
+                    string path = BatteryNotifierKey.GetValue("batteryHighSoundPath").ToString();
                     if (File.Exists(path))
                     {
                         batteryHighSoundPath = @path;
                     }
                 }
 
-                if (SoundPathKeys.GetValue("batteryLowSoundPath") != null)
+                if (BatteryNotifierKey.GetValue("lowBatteryLevel") != null)
                 {
-                    string path = SoundPathKeys.GetValue("batteryLowSoundPath").ToString();
-                    if (File.Exists(path))
-                    {
-                        batteryLowSoundPath = @path;
-                    }
+                    lowBatteryLevel = (float)BatteryNotifierKey.GetValue("lowBatteryLevel")/100;
+                }
+
+                if (BatteryNotifierKey.GetValue("highBatteryLevel") != null)
+                {
+                    highBatteryLevel = (float)BatteryNotifierKey.GetValue("highBatteryLevel")/100;
+                }
+
+                if (BatteryNotifierKey.GetValue("alertOnLowBattery") != null)
+                {
+                    if ((string)BatteryNotifierKey.GetValue("alertOnLowBattery") == "True")
+                        alertOnLowBattery = true;
+                    else
+                        alertOnLowBattery = false;
+                }
+
+                if (BatteryNotifierKey.GetValue("alertOnHighBattery") != null)
+                {
+                    if ((string)BatteryNotifierKey.GetValue("alertOnHighBattery") == "True")
+                        alertOnHighBattery = true;
+                    else
+                        alertOnHighBattery = false;
                 }
             }
-            // TODO: load other variables
         }
     }
 }
